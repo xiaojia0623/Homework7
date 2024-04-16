@@ -1,15 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View , TouchableOpacity, Image, FlatList, ScrollView, SafeAreaView } from 'react-native';
-
 import { AntDesign } from '@expo/vector-icons';
 
 import TextStyles from '../styles/TextStyles';
 
-import MyImage from '../Component/MyImage';
 
 export default function DogCatScreen(props) {
-
     const [dataSource, setDataSource] = useState([])
 
     useEffect(()=> {
@@ -32,15 +29,15 @@ export default function DogCatScreen(props) {
     }
 
   
-    const defaultImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2lN-MIfzq_YivOa0M67__O1MNHV0bwzr0-hbVQiKe8g&s'
+    const defaultImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2lN-MIfzq_YivOa0M67__O1MNHV0bwzr0-hbVQiKe8g&';
     
     const renderList = (cases) => {
         return (
           <TouchableOpacity onPress={()=> props.navigation.push('AnimalInfo', {passProps:cases})}>
             <View>
               <View style={styles.MainView}>
-                <MyImage style={styles.aniImg}
-                defaultSource={defaultImage}
+                <Image style={styles.aniImg}
+                defaultSource={{uri: defaultImage}}
                 source={{uri:cases.album_file ? cases.album_file : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2lN-MIfzq_YivOa0M67__O1MNHV0bwzr0-hbVQiKe8g&s'}} 
                 imgResizeMode="contain"
                 />
@@ -62,10 +59,19 @@ export default function DogCatScreen(props) {
 
   return (
    <SafeAreaView style={styles.container}>
-    <ScrollView style={styles.scrollView}>
-      <FlatList data={dataSource} renderItem={ cases  => renderList(cases.item, props)} keyExtractor={cases => cases.id}  />
-    </ScrollView>
-  </SafeAreaView>
+      <ScrollView style={styles.scrollView}>
+      {
+        dataSource.map((item, index) => {
+          return (
+            <View key={index}>
+              {renderList(item)}
+            </View>
+          )
+        })
+      }
+      {/* <FlatList data={dataSource} renderItem={ cases  => renderList(cases.item, props)} keyExtractor={cases => cases.id}  /> */}
+      </ScrollView>
+    </SafeAreaView>
 
   );
 }

@@ -34,7 +34,6 @@ export default function CatScreen(props) {
               <Text ellipsizeMode='tail' numberOfLines={3}  style={TextStyles.textContent}>適用: {Item.fusage1}</Text>
             </View>
             <AntDesign name="right" size={24} color="black" />
-            
           </View>
           <View style={styles.seperator}></View>
         </View>
@@ -47,7 +46,16 @@ export default function CatScreen(props) {
   return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <FlatList data={foodData} renderItem={ Item  => renderFoodList(Item.item, props)} keyExtractor={Item => Item.id}  />
+          {
+            foodData.map((item, index) => {
+              return (
+                <View key={index}>
+                  {renderFoodList(item)}
+                </View>
+              )
+            })
+          }
+          {/* <FlatList data={foodData} renderItem={ Item  => renderFoodList(Item.item, props)} keyExtractor={Item => Item.id}  /> */}
         </ScrollView>
       </SafeAreaView>
   );
